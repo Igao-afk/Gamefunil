@@ -1,0 +1,40 @@
+:root {
+  /* Colors */
+  --color-bg: #000000;
+  --color-surface: #1c1c1e;
+  --color-surface-2: #2c2c2e;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #8e8e93;
+  --color-accent: #00ff41;
+  --color-whatsapp: #25d366;
+  --color-danger: #ff3b30;
+  --color-credentials: #0d1117;
+
+  /* Typography */
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --font-ios: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+
+  /* Safe areas (iOS) */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* Transitions */
+  --transition-fast: 150ms ease-out;
+  --transition-base: 250ms ease-out;
+  --transition-slow: 500ms ease-in-out;
+  --transition-stage: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glitch animation */
+@keyframes glitch-shift {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-2px); filter: hue-rotate(90deg); }
+  40% { transform: translateX(2px); filter: hue-rotate(-90deg); }
+  60% { transform: translateX(-1px); }
+  80% { transform: translateX(1px); }
+}
+
+.glitch-active {
+  animation: glitch-shift 0.08s steps(1) infinite;
+}

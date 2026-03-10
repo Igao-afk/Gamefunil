@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --version)",
+      "Bash(npm --version)",
+      "Bash(npm install -D vite@^6 @vitejs/plugin-react@^4 typescript@^5 @types/react@^19 @types/react-dom@^19 @types/howler tailwindcss@^3.4 postcss autoprefixer eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-react-hooks eslint-plugin-react-refresh prettier vitest @vitest/ui @testing-library/react @testing-library/user-event @testing-library/jest-dom jsdom)",
+      "Bash(npm install -D vite@^6 @vitejs/plugin-react@^4 typescript@^5 @types/react@^19 @types/react-dom@^19 @types/howler tailwindcss@^3.4 postcss autoprefixer eslint@^9 prettier vitest @vitest/ui @testing-library/react @testing-library/user-event @testing-library/jest-dom jsdom)",
+      "Bash(npm install -D vite@^6 @vitejs/plugin-react@^4 typescript@^5 @types/react@^19 @types/react-dom@^19 @types/howler tailwindcss@^3.4 postcss autoprefixer)",
+      "Bash(npm cache clean --force)",
+      "Bash(npm cache verify)",
+      "Bash(wmic logicaldisk get size,freespace,caption)",
+      "Bash(powershell -Command \"Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{N=''Free\\(GB\\)'';E={[math]::round\\($_Free/1GB,1\\)}}, @{N=''Used\\(GB\\)'';E={[math]::round\\($_Used/1GB,1\\)}}\")",
+      "Bash(powershell -Command \"Remove-Item -Path ''C:\\\\Users\\\\acarn\\\\AppData\\\\Local\\\\npm-cache'' -Recurse -Force -ErrorAction SilentlyContinue; Write-Host ''Cache removido''\")",
+      "Bash(npm install -D eslint@^9 prettier vitest @vitest/ui @testing-library/react @testing-library/user-event @testing-library/jest-dom jsdom)",
+      "Bash(npm install -D @eslint/js globals eslint-plugin-react-hooks eslint-plugin-react-refresh typescript-eslint)",
+      "Bash(npm install -D @eslint/js globals eslint-plugin-react-hooks eslint-plugin-react-refresh typescript-eslint --legacy-peer-deps)",
+      "Bash(npm run type-check)",
+      "Bash(npm run build)",
+      "Bash(npm install -D @types/node)",
+      "Bash(npm install -D @types/node --legacy-peer-deps)",
+      "Bash(npm test -- --run)",
+      "Bash(npm install -D @testing-library/dom --legacy-peer-deps)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where npm)",
+      "Bash(node -e \"const {execSync}=require\\(''child_process''\\);console.log\\(execSync\\(''where npm''\\).toString\\(\\).trim\\(\\).split\\(''\\\\n''\\)[0]\\)\")",
+      "Bash(netstat -ano)",
+      "Bash(findstr :4173)",
+      "Bash(copy \"C:\\\\Users\\\\acarn\\\\Downloads\\\\code 1.1 \\(2\\).mp3\" \"D:\\\\ProjetosIA\\\\gamefunnel Anderson Conectagram\\\\public\\\\audio\\\\code-voice-1.mp3\")",
+      "Bash(copy \"C:\\\\Users\\\\acarn\\\\Downloads\\\\code 1.2.mp3\" \"D:\\\\ProjetosIA\\\\gamefunnel Anderson Conectagram\\\\public\\\\audio\\\\code-voice-2.mp3\")",
+      "Bash(ffprobe -v quiet -show_entries format=duration -of csv=p=0 \"C:/Users/Igor/Documents/1 Senna/gamefunnel Anderson Conectagram 10-03/gamefunnel/public/audio/darkgirlWhatsAppAudio1.mp3\" 2>/dev/null && ffprobe -v quiet -show_entries format=duration -of csv=p=0 \"C:/Users/Igor/Documents/1 Senna/gamefunnel Anderson Conectagram 10-03/gamefunnel/public/audio/darkgirlWhatsAppAudio2.mp3\" 2>/dev/null)",
+      "Bash(powershell -Command \"\nAdd-Type -AssemblyName presentationcore\n\\\\$p1 = New-Object System.Windows.Media.MediaPlayer\n\\\\$p1.Open\\([System.Uri]::new\\('C:/Users/Igor/Documents/1 Senna/gamefunnel Anderson Conectagram 10-03/gamefunnel/public/audio/darkgirlWhatsAppAudio1.mp3'\\)\\)\nStart-Sleep -Milliseconds 500\n\\\\$dur1 = \\\\$p1.NaturalDuration\n\\\\$p1.Close\\(\\)\n\\\\$p2 = New-Object System.Windows.Media.MediaPlayer\n\\\\$p2.Open\\([System.Uri]::new\\('C:/Users/Igor/Documents/1 Senna/gamefunnel Anderson Conectagram 10-03/gamefunnel/public/audio/darkgirlWhatsAppAudio2.mp3'\\)\\)\nStart-Sleep -Milliseconds 500\n\\\\$dur2 = \\\\$p2.NaturalDuration\n\\\\$p2.Close\\(\\)\nWrite-Host \\\\\"Audio1: \\\\$dur1\\\\\"\nWrite-Host \\\\\"Audio2: \\\\$dur2\\\\\"\n\")",
+      "Bash(powershell -Command \"\n\\\\$shell = New-Object -COMObject Shell.Application\n\\\\$folder1 = \\\\$shell.Namespace\\('C:\\\\Users\\\\Igor\\\\Documents\\\\1 Senna\\\\gamefunnel Anderson Conectagram 10-03\\\\gamefunnel\\\\public\\\\audio'\\)\n\\\\$file1 = \\\\$folder1.ParseName\\('darkgirlWhatsAppAudio1.mp3'\\)\n\\\\$file2 = \\\\$folder1.ParseName\\('darkgirlWhatsAppAudio2.mp3'\\)\nWrite-Host \\('Audio1 duration: ' + \\\\$folder1.GetDetailsOf\\(\\\\$file1, 27\\)\\)\nWrite-Host \\('Audio2 duration: ' + \\\\$folder1.GetDetailsOf\\(\\\\$file2, 27\\)\\)\n\")"
+    ]
+  }
+}
