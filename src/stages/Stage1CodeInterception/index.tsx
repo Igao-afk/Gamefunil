@@ -14,7 +14,7 @@ type Scene = 'call' | 'ended' | 'reveal'
 
 const Stage1CodeInterception = () => {
   const advanceStage = useFunnelStore((s) => s.advanceStage)
-  const { play, fadeIn, stopAll } = useAudio()
+  const { stopAll } = useAudio()
 
   const [scene, setScene] = useState<Scene>('call')
   const [callStatus, setCallStatus] = useState<CallStatus>('incoming')

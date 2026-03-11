@@ -95,7 +95,10 @@ const IPhoneCallScreen = ({
       <StatusBarIOS />
 
       {/* Área principal */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8">
+      <div className="flex flex-1 flex-col items-center gap-4 px-8">
+        {/* Espaçador superior — 2/3 do espaço disponível, empurra o avatar para o centro óptico da tela */}
+        <div style={{ flex: 2 }} />
+
         {/* Avatar */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
@@ -162,6 +165,9 @@ const IPhoneCallScreen = ({
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Espaçador inferior — 1/3 do espaço disponível */}
+        <div className="flex-1" />
       </div>
 
       {/* Botões de ação */}

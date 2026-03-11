@@ -34,7 +34,7 @@ const Stage3WhatsApp = () => {
   const { visibleMessages, isTyping } = useMessageQueue({
     messages: MESSAGES,
     autoStart: true,
-    onMessageAdded: (type) => { if (type === 'text') setTimeout(() => audioEngine.play('whatsapp'), 200) },
+    onMessageAdded: () => { setTimeout(() => audioEngine.play('whatsapp'), 200) },
     onComplete: () => {
       // Após todas as mensagens, revela o card de credenciais
       setTimeout(() => setShowCredentials(true), 800)

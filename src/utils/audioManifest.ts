@@ -87,7 +87,7 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
     defaultVolume: 1.0,
   },
   'whatsapp': {
-    src: ['/audio/whatssApp.mp3'],
+    src: ['/audio/whatsapp.mp3'],
     loop: false,
     defaultVolume: 0.8,
   },

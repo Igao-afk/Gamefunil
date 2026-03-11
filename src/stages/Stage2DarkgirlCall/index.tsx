@@ -13,33 +13,13 @@ type Scene = 'dialing' | 'call' | 'transitioning'
 const Stage2DarkgirlCall = () => {
   const advanceStage = useFunnelStore((s) => s.advanceStage)
   const setTransitioning = useFunnelStore((s) => s.setTransitioning)
-  const { play, fadeIn, stopAll } = useAudio()
+  const { fadeIn, stopAll } = useAudio()
 
   const [scene, setScene] = useState<Scene>('dialing')
   const [callStatus, setCallStatus] = useState<CallStatus>('incoming')
   const [glitchIntensity, setGlitchIntensity] = useState(0)
   const glitchRef = useRef(0)
   const glitchRafRef = useRef<number | null>(null)
-
-  // Tom de discagem + suspense no fundo → atende após 3s e inicia voz + diálogo
-  useEffect(() => {
-    audioEngine.play('dialing-tone')
-    audioEngine.fadeIn('suspense', 2000)
-
-    const t = setTimeout(() => {
-      audioEngine.stop('dialing-tone')
-      setCallStatus('active')
-      setScene('call')
-
-      // Diálogo começa 500ms antes da voz (corrige drift cumulativo)
-      startDialogue()
-      setTimeout(() => {
-        audioEngine.play('darkgirl-voice')
-      }, 500)
-    }, 3000)
-
-    return () => clearTimeout(t)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Anima glitch progressivamente a partir do índice GLITCH_START_INDEX
   const animateGlitch = (targetIntensity: number) => {
@@ -94,6 +74,26 @@ const Stage2DarkgirlCall = () => {
     },
   })
 
+  // Tom de discagem + suspense no fundo → atende após 3s e inicia voz + diálogo
+  useEffect(() => {
+    audioEngine.play('dialing-tone')
+    audioEngine.fadeIn('suspense', 2000)
+
+    const t = setTimeout(() => {
+      audioEngine.stop('dialing-tone')
+      setCallStatus('active')
+      setScene('call')
+
+      // Diálogo começa 500ms antes da voz (corrige drift cumulativo)
+      startDialogue()
+      setTimeout(() => {
+        audioEngine.play('darkgirl-voice')
+      }, 500)
+    }, 3000)
+
+    return () => clearTimeout(t)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <AnimatePresence mode="wait">
       {scene !== 'transitioning' ? (
@@ -111,20 +111,20 @@ const Stage2DarkgirlCall = () => {
             avatarSrc="/images/darkgirl.jpg"
           />
 
-          {/* Diálogo typewriter */}
+          {/* Diálogo typewriter — exibe só as 3 últimas linhas para não cobrir botões */}
           {scene === 'call' && (
-            <div className="absolute bottom-36 left-0 right-0 px-6">
-              <div className="space-y-1">
-                {displayedLines.map((line, i) => (
+            <div className="absolute bottom-48 left-0 right-0 px-6">
+              <div className="space-y-[2px]">
+                {displayedLines.slice(-3).map((line, i, arr) => (
                   <motion.p
-                    key={i}
+                    key={displayedLines.length - arr.length + i}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-mono text-xs leading-relaxed text-white/80"
+                    className="font-mono text-[10px] leading-snug text-white/70"
                   >
                     {line}
-                    {i === displayedLines.length - 1 && (
-                      <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-white/70" />
+                    {i === arr.length - 1 && (
+                      <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-white/60" />
                     )}
                   </motion.p>
                 ))}

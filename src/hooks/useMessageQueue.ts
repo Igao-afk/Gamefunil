@@ -27,9 +27,12 @@ export function useMessageQueue({
   const [started, setStarted] = useState(autoStart)
 
   const onCompleteRef = useRef(onComplete)
-  onCompleteRef.current = onComplete
   const onMessageAddedRef = useRef(onMessageAdded)
-  onMessageAddedRef.current = onMessageAdded
+
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+    onMessageAddedRef.current = onMessageAdded
+  })
 
   useEffect(() => {
     if (!started || messages.length === 0) return
