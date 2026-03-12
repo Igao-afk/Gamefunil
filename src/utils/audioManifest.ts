@@ -109,11 +109,11 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
   'interferencia': {
     src: ['/audio/interferencia.mp3'],
     loop: false,
-    defaultVolume: 1.0,
+    defaultVolume: 0.5,
   },
   'glitch-sound': {
     src: ['/audio/glitch.mp3'],
     loop: false,
-    defaultVolume: 1.0,
+    defaultVolume: 0.5,
   },
 }

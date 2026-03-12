@@ -119,14 +119,14 @@ const Stage1CodeInterception = () => {
 
             {/* Diálogo typewriter — rolante (últimas 2 linhas), centralizado */}
             {callStatus === 'active' && (
-              <div className="absolute inset-x-0 bottom-56 flex flex-col items-center gap-[6px] px-8">
+              <div className="absolute inset-x-0 bottom-56 flex flex-col items-center gap-2 px-6">
                 {visibleLines.map(({ text, index }) => (
                   <motion.p
                     key={index}
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.25 }}
-                    className="text-center font-mono text-[11px] leading-relaxed text-hacker-green/90"
+                    className="text-center font-mono text-[12px] leading-relaxed text-hacker-green/90"
                   >
                     {text}
                     {/* Cursor piscante apenas na última linha sendo digitada */}
