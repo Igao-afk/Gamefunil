@@ -48,8 +48,13 @@ const Stage2DarkgirlCall = () => {
     lines: DARKGIRL_DIALOGUE,
     autoStart: false,
     onLineComplete: (index) => {
-      // Glitch começa a crescer na linha GLITCH_START_INDEX
+      // Interferência eletrônica: dispara 2.5s após o fim da linha anterior ao SFX (ts≈100s)
+      if (index === GLITCH_START_INDEX - 1) {
+        setTimeout(() => audioEngine.play('interferencia'), 2500)
+      }
+      // Glitch começa a crescer na linha GLITCH_START_INDEX ("...espera." ts=103s)
       if (index === GLITCH_START_INDEX) {
+        audioEngine.play('glitch-sound')
         fadeIn('static-noise', 2000)
         animateGlitch(0.4)
       }
@@ -108,7 +113,7 @@ const Stage2DarkgirlCall = () => {
             callerName="DarkGirl"
             callerNumber="+55 (11) 9 8765-4321"
             callStatus={callStatus}
-            avatarSrc="/images/darkgirl.jpg"
+            avatarSrc="/images/darkGirl.jpg"
           />
 
           {/* Diálogo typewriter — exibe só as 3 últimas linhas para não cobrir botões */}

@@ -51,7 +51,7 @@ const Stage3WhatsApp = () => {
       <WhatsAppSimulator
         messages={visibleMessages}
         isTyping={isTyping}
-        avatarSrc="/images/darkgirl.jpg"
+        avatarSrc="/images/darkGirl.jpg"
         contactName="DarkGirl"
       />
 

@@ -25,3 +25,5 @@ export type AudioId =
   | 'whatsapp'
   | 'darkgirl-whatsapp-audio-1'
   | 'darkgirl-whatsapp-audio-2'
+  | 'interferencia'
+  | 'glitch-sound'
