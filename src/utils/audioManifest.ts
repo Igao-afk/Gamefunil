@@ -101,6 +101,11 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
     loop: false,
     defaultVolume: 0.9,
   },
+  'darkgirl-whatsapp-audio-3': {
+    src: ['/audio/darkgirlWhatsAppAudio3.mp3'],
+    loop: false,
+    defaultVolume: 0.9,
+  },
   'interferencia': {
     src: ['/audio/interferencia.mp3'],
     loop: false,

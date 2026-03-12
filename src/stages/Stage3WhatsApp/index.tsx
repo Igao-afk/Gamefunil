@@ -14,10 +14,14 @@ const MESSAGES: QueuedMessage[] = [
   { type: 'text', content: 'Ativando criptografia.', delay: 2000 },
   { type: 'text', content: 'Estamos seguros agora.', delay: 2000 },
   { type: 'text', content: 'Esse é o método. Escuta com atenção.', delay: 2500 },
-  { type: 'audio', audioId: 'darkgirl-whatsapp-audio-1', duration: '0:26', delay: 2000 },
-  { type: 'text', content: 'Viu como funciona?', delay: 27000 },
-  { type: 'audio', audioId: 'darkgirl-whatsapp-audio-2', duration: '0:16', delay: 2000 },
-  { type: 'text', content: 'Use essas credenciais para acessar.', delay: 17000 },
+  { type: 'audio', audioId: 'darkgirl-whatsapp-audio-1', duration: '0:11', delay: 2000 },
+  { type: 'audio', audioId: 'darkgirl-whatsapp-audio-2', duration: '0:15', delay: 12000 },
+  { type: 'audio', audioId: 'darkgirl-whatsapp-audio-3', duration: '0:08', delay: 16000 },
+  { type: 'text', content: 'Viu como funciona?', delay: 9000 },
+  { type: 'text', content: 'O Code preparou algo antes de desaparecer.', delay: 2500 },
+  { type: 'text', content: 'Ele gravou uma explicação.', delay: 2500 },
+  { type: 'text', content: 'Está em um TikTok privado.', delay: 2000 },
+  { type: 'text', content: 'Use essas credenciais para acessar.', delay: 2500 },
   { type: 'text', content: 'Não compartilha com ninguém.', delay: 1800 },
 ]
 
