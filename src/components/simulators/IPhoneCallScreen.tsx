@@ -95,13 +95,16 @@ const IPhoneCallScreen = ({
       <StatusBarIOS />
 
       {/* Área principal */}
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8">
+      <div className="flex flex-1 flex-col items-center gap-4 px-8">
+        {/* Espaçador superior — 2/3 do espaço disponível, empurra o avatar para o centro óptico da tela */}
+        <div style={{ flex: 2 }} />
+
         {/* Avatar */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.4 }}
-          className="relative flex h-20 w-20 items-center justify-center rounded-full bg-surface-2"
+          className="relative flex h-28 w-28 items-center justify-center rounded-full bg-surface-2"
         >
           {/* Pulse ring quando incoming */}
           {callStatus === 'incoming' && (
@@ -115,7 +118,7 @@ const IPhoneCallScreen = ({
             <img
               src={avatarSrc}
               alt={callerName}
-              className="h-full w-full rounded-full object-cover"
+              className="h-full w-full rounded-full object-cover object-top"
             />
           ) : (
             <span className="font-mono text-2xl text-hacker-green">
@@ -162,6 +165,9 @@ const IPhoneCallScreen = ({
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Espaçador inferior — 1/3 do espaço disponível */}
+        <div className="flex-1" />
       </div>
 
       {/* Botões de ação */}

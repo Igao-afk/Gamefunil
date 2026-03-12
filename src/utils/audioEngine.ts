@@ -151,8 +151,8 @@ class AudioEngine {
   preloadStage(stage: 1 | 2 | 3 | 4): void {
     const stageMap: Record<number, AudioId[]> = {
       1: ['keyboard-loop', 'sirens', 'footsteps', 'gunshot-1', 'gunshot-2', 'code-voice-1', 'code-voice-2', 'suspense', 'cellphone', 'gun'],
-      2: ['dialing-tone', 'call-connected', 'static-noise', 'suspense', 'darkgirl-voice'],
-      3: ['voice-message-1', 'voice-message-2', 'voice-message-3', 'whatsapp', 'darkgirl-whatsapp-audio-1', 'darkgirl-whatsapp-audio-2'],
+      2: ['dialing-tone', 'call-connected', 'static-noise', 'suspense', 'darkgirl-voice', 'interferencia', 'glitch-sound'],
+      3: ['voice-message-1', 'voice-message-2', 'voice-message-3', 'whatsapp', 'darkgirl-whatsapp-audio-1', 'darkgirl-whatsapp-audio-2', 'darkgirl-whatsapp-audio-3'],
       4: [],
     }
     const ids = stageMap[stage]

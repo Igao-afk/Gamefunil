@@ -14,7 +14,7 @@ type Scene = 'call' | 'ended' | 'reveal'
 
 const Stage1CodeInterception = () => {
   const advanceStage = useFunnelStore((s) => s.advanceStage)
-  const { play, fadeIn, stopAll } = useAudio()
+  const { stopAll } = useAudio()
 
   const [scene, setScene] = useState<Scene>('call')
   const [callStatus, setCallStatus] = useState<CallStatus>('incoming')
@@ -119,7 +119,7 @@ const Stage1CodeInterception = () => {
 
             {/* Diálogo typewriter — rolante (últimas 2 linhas), centralizado */}
             {callStatus === 'active' && (
-              <div className="absolute inset-x-0 bottom-44 flex flex-col items-center gap-[6px] px-8">
+              <div className="absolute inset-x-0 bottom-56 flex flex-col items-center gap-[6px] px-8">
                 {visibleLines.map(({ text, index }) => (
                   <motion.p
                     key={index}

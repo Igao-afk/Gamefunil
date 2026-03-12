@@ -1,8 +1,26 @@
-// Simula a status bar do iOS: hora fixa 09:41, ícones de sinal/wifi/bateria
-const StatusBarIOS = () => (
+import { useState, useEffect } from 'react'
+
+// Retorna hora atual no fuso de Brasília (HH:MM)
+const getBrasiliaTime = () =>
+  new Date().toLocaleTimeString('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+
+// Simula a status bar do iOS com hora em tempo real (fuso Brasília)
+const StatusBarIOS = () => {
+  const [time, setTime] = useState(getBrasiliaTime)
+
+  useEffect(() => {
+    const id = setInterval(() => setTime(getBrasiliaTime()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
   <div className="flex w-full items-center justify-between px-6 pt-3 pb-1">
     {/* Hora */}
-    <span className="font-semibold text-[15px] text-white tracking-tight">9:41</span>
+    <span className="font-semibold text-[15px] text-white tracking-tight">{time}</span>
 
     {/* Dynamic Island / notch placeholder */}
     <div className="h-[34px] w-[126px] rounded-full bg-black" />
@@ -39,6 +57,7 @@ const StatusBarIOS = () => (
       </div>
     </div>
   </div>
-)
+  )
+}
 
 export default StatusBarIOS

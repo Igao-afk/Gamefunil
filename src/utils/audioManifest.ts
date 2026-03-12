@@ -29,7 +29,7 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
   'dialing-tone': {
     src: ['/audio/dialing-tone.mp3', '/audio/dialing-tone.ogg'],
     loop: true,
-    defaultVolume: 0.5,
+    defaultVolume: 1.0,
   },
   'call-connected': {
     src: ['/audio/call-connected.mp3', '/audio/call-connected.ogg'],
@@ -74,7 +74,7 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
   'cellphone': {
     src: ['/audio/cellphone.mp3'],
     loop: true,
-    defaultVolume: 0.8,
+    defaultVolume: 1.0,
   },
   'gun': {
     src: ['/audio/gun.mp3'],
@@ -87,7 +87,7 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
     defaultVolume: 1.0,
   },
   'whatsapp': {
-    src: ['/audio/whatssApp.mp3'],
+    src: ['/audio/whatsapp.mp3'],
     loop: false,
     defaultVolume: 0.8,
   },
@@ -100,5 +100,20 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
     src: ['/audio/darkgirlWhatsAppAudio2.mp3'],
     loop: false,
     defaultVolume: 0.9,
+  },
+  'darkgirl-whatsapp-audio-3': {
+    src: ['/audio/darkgirlWhatsAppAudio3.mp3'],
+    loop: false,
+    defaultVolume: 0.9,
+  },
+  'interferencia': {
+    src: ['/audio/interferencia.mp3'],
+    loop: false,
+    defaultVolume: 1.0,
+  },
+  'glitch-sound': {
+    src: ['/audio/glitch.mp3'],
+    loop: false,
+    defaultVolume: 1.0,
   },
 }

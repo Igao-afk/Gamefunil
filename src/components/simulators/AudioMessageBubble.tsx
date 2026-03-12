@@ -1,20 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAudio } from '../../hooks/useAudio'
+import { audioEngine } from '../../utils/audioEngine'
 import type { AudioId } from '../../types/audio'
 
 interface AudioMessageBubbleProps {
   audioId: AudioId
   duration: string // ex: "0:42"
   timestamp: string
+  autoPlay?: boolean
 }
 
 // Waveform SVG estática — barras de altura variada simulando onda de áudio
 const WAVEFORM_HEIGHTS = [4, 8, 14, 10, 6, 12, 16, 10, 8, 5, 11, 15, 9, 7, 13, 10, 6, 9, 14, 8]
 
-const AudioMessageBubble = ({ audioId, duration, timestamp }: AudioMessageBubbleProps) => {
+const AudioMessageBubble = ({ audioId, duration, timestamp, autoPlay = false }: AudioMessageBubbleProps) => {
   const [playing, setPlaying] = useState(false)
   const { play, stop } = useAudio()
+
+  // Reprodução automática ao montar — aguarda 200ms para o som de notificação terminar
+  useEffect(() => {
+    if (!autoPlay) return
+    const id = setTimeout(() => {
+      play(audioId)
+      setPlaying(true)
+      audioEngine.onEnd(audioId, () => setPlaying(false))
+    }, 200)
+    return () => clearTimeout(id)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleToggle = () => {
     if (playing) {
@@ -23,6 +36,7 @@ const AudioMessageBubble = ({ audioId, duration, timestamp }: AudioMessageBubble
     } else {
       play(audioId)
       setPlaying(true)
+      audioEngine.onEnd(audioId, () => setPlaying(false))
     }
   }
 

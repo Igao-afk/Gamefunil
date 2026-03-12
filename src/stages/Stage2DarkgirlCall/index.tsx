@@ -13,33 +13,13 @@ type Scene = 'dialing' | 'call' | 'transitioning'
 const Stage2DarkgirlCall = () => {
   const advanceStage = useFunnelStore((s) => s.advanceStage)
   const setTransitioning = useFunnelStore((s) => s.setTransitioning)
-  const { play, fadeIn, stopAll } = useAudio()
+  const { fadeIn, stopAll } = useAudio()
 
   const [scene, setScene] = useState<Scene>('dialing')
   const [callStatus, setCallStatus] = useState<CallStatus>('incoming')
   const [glitchIntensity, setGlitchIntensity] = useState(0)
   const glitchRef = useRef(0)
   const glitchRafRef = useRef<number | null>(null)
-
-  // Tom de discagem + suspense no fundo → atende após 3s e inicia voz + diálogo
-  useEffect(() => {
-    audioEngine.play('dialing-tone')
-    audioEngine.fadeIn('suspense', 2000)
-
-    const t = setTimeout(() => {
-      audioEngine.stop('dialing-tone')
-      setCallStatus('active')
-      setScene('call')
-
-      // Diálogo começa 500ms antes da voz (corrige drift cumulativo)
-      startDialogue()
-      setTimeout(() => {
-        audioEngine.play('darkgirl-voice')
-      }, 500)
-    }, 3000)
-
-    return () => clearTimeout(t)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Anima glitch progressivamente a partir do índice GLITCH_START_INDEX
   const animateGlitch = (targetIntensity: number) => {
@@ -68,8 +48,13 @@ const Stage2DarkgirlCall = () => {
     lines: DARKGIRL_DIALOGUE,
     autoStart: false,
     onLineComplete: (index) => {
-      // Glitch começa a crescer na linha GLITCH_START_INDEX
+      // Interferência eletrônica: dispara 2.5s após o fim da linha anterior ao SFX (ts≈100s)
+      if (index === GLITCH_START_INDEX - 1) {
+        setTimeout(() => audioEngine.play('interferencia'), 2500)
+      }
+      // Glitch começa a crescer na linha GLITCH_START_INDEX ("...espera." ts=103s)
       if (index === GLITCH_START_INDEX) {
+        audioEngine.play('glitch-sound')
         fadeIn('static-noise', 2000)
         animateGlitch(0.4)
       }
@@ -94,6 +79,26 @@ const Stage2DarkgirlCall = () => {
     },
   })
 
+  // Tom de discagem + suspense no fundo → atende após 3s e inicia voz + diálogo
+  useEffect(() => {
+    audioEngine.play('dialing-tone')
+    audioEngine.fadeIn('suspense', 2000)
+
+    const t = setTimeout(() => {
+      audioEngine.stop('dialing-tone')
+      setCallStatus('active')
+      setScene('call')
+
+      // Diálogo começa 500ms antes da voz (corrige drift cumulativo)
+      startDialogue()
+      setTimeout(() => {
+        audioEngine.play('darkgirl-voice')
+      }, 500)
+    }, 3000)
+
+    return () => clearTimeout(t)
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <AnimatePresence mode="wait">
       {scene !== 'transitioning' ? (
@@ -108,23 +113,23 @@ const Stage2DarkgirlCall = () => {
             callerName="DarkGirl"
             callerNumber="+55 (11) 9 8765-4321"
             callStatus={callStatus}
-            avatarSrc="/images/darkgirl.jpg"
+            avatarSrc="/images/darkGirl.jpg"
           />
 
-          {/* Diálogo typewriter */}
+          {/* Diálogo typewriter — exibe só as 3 últimas linhas para não cobrir botões */}
           {scene === 'call' && (
-            <div className="absolute bottom-36 left-0 right-0 px-6">
-              <div className="space-y-1">
-                {displayedLines.map((line, i) => (
+            <div className="absolute bottom-56 left-0 right-0 px-6">
+              <div className="space-y-[2px]">
+                {displayedLines.slice(-3).map((line, i, arr) => (
                   <motion.p
-                    key={i}
+                    key={displayedLines.length - arr.length + i}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-mono text-xs leading-relaxed text-white/80"
+                    className="font-mono text-[10px] leading-snug text-hacker-green/90"
                   >
                     {line}
-                    {i === displayedLines.length - 1 && (
-                      <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-white/70" />
+                    {i === arr.length - 1 && (
+                      <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-white/60" />
                     )}
                   </motion.p>
                 ))}
@@ -134,7 +139,7 @@ const Stage2DarkgirlCall = () => {
 
           {/* Indicador de discando */}
           {scene === 'dialing' && (
-            <div className="absolute bottom-48 left-0 right-0 flex justify-center">
+            <div className="absolute bottom-56 left-0 right-0 flex justify-center">
               <motion.p
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 1.2, repeat: Infinity }}
