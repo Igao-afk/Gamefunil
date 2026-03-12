@@ -113,14 +113,14 @@ const Stage2DarkgirlCall = () => {
 
           {/* Diálogo typewriter — exibe só as 3 últimas linhas para não cobrir botões */}
           {scene === 'call' && (
-            <div className="absolute bottom-48 left-0 right-0 px-6">
+            <div className="absolute bottom-56 left-0 right-0 px-6">
               <div className="space-y-[2px]">
                 {displayedLines.slice(-3).map((line, i, arr) => (
                   <motion.p
                     key={displayedLines.length - arr.length + i}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-mono text-[10px] leading-snug text-white/70"
+                    className="font-mono text-[10px] leading-snug text-hacker-green/90"
                   >
                     {line}
                     {i === arr.length - 1 && (
@@ -134,7 +134,7 @@ const Stage2DarkgirlCall = () => {
 
           {/* Indicador de discando */}
           {scene === 'dialing' && (
-            <div className="absolute bottom-48 left-0 right-0 flex justify-center">
+            <div className="absolute bottom-56 left-0 right-0 flex justify-center">
               <motion.p
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 1.2, repeat: Infinity }}

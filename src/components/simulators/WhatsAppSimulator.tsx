@@ -127,6 +127,7 @@ const WhatsAppSimulator = ({ messages, isTyping, avatarSrc, contactName = 'DarkG
                     audioId={msg.audioId as AudioId}
                     duration={msg.duration}
                     timestamp={getTimestamp(i)}
+                    autoPlay
                   />
                 )}
               </motion.div>

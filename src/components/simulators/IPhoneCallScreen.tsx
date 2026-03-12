@@ -104,7 +104,7 @@ const IPhoneCallScreen = ({
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.4 }}
-          className="relative flex h-20 w-20 items-center justify-center rounded-full bg-surface-2"
+          className="relative flex h-28 w-28 items-center justify-center rounded-full bg-surface-2"
         >
           {/* Pulse ring quando incoming */}
           {callStatus === 'incoming' && (
@@ -118,7 +118,7 @@ const IPhoneCallScreen = ({
             <img
               src={avatarSrc}
               alt={callerName}
-              className="h-full w-full rounded-full object-cover"
+              className="h-full w-full rounded-full object-cover object-top"
             />
           ) : (
             <span className="font-mono text-2xl text-hacker-green">

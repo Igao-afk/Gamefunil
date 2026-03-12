@@ -29,7 +29,7 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
   'dialing-tone': {
     src: ['/audio/dialing-tone.mp3', '/audio/dialing-tone.ogg'],
     loop: true,
-    defaultVolume: 0.5,
+    defaultVolume: 1.0,
   },
   'call-connected': {
     src: ['/audio/call-connected.mp3', '/audio/call-connected.ogg'],
@@ -74,7 +74,7 @@ export const AUDIO_MANIFEST: Record<AudioId, AudioConfig> = {
   'cellphone': {
     src: ['/audio/cellphone.mp3'],
     loop: true,
-    defaultVolume: 0.8,
+    defaultVolume: 1.0,
   },
   'gun': {
     src: ['/audio/gun.mp3'],

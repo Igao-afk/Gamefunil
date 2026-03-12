@@ -119,7 +119,7 @@ const Stage1CodeInterception = () => {
 
             {/* Diálogo typewriter — rolante (últimas 2 linhas), centralizado */}
             {callStatus === 'active' && (
-              <div className="absolute inset-x-0 bottom-44 flex flex-col items-center gap-[6px] px-8">
+              <div className="absolute inset-x-0 bottom-56 flex flex-col items-center gap-[6px] px-8">
                 {visibleLines.map(({ text, index }) => (
                   <motion.p
                     key={index}
