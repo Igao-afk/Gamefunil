@@ -62,7 +62,7 @@ const BENEFITS = [
 
 const openCheckout = () => {
   const url = config.checkoutUrl || '#'
-  window.open(url, '_blank', 'noopener,noreferrer')
+  window.location.href = url
 }
 
 // CTA verde com glow pulsante — reutilizado em múltiplos pontos

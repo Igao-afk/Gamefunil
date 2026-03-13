@@ -39,6 +39,13 @@ const TikTokFeedSimulator = ({ videos, onCTAClick }: TikTokFeedSimulatorProps) =
     }
   }, [videos])
 
+  const goToNext = (index: number) => {
+    const next = cardRefs.current[index + 1]
+    if (next) {
+      next.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="flex h-full w-full flex-col bg-black">
       {/* Header TikTok */}
@@ -71,6 +78,7 @@ const TikTokFeedSimulator = ({ videos, onCTAClick }: TikTokFeedSimulatorProps) =
               isActive={activeIndex === i}
               isLast={i === videos.length - 1}
               onCTAClick={onCTAClick}
+              onEnded={() => goToNext(i)}
             />
           </div>
         ))}
