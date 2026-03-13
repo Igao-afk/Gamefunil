@@ -7,6 +7,7 @@ interface VideoCardProps extends VideoConfig {
   isActive: boolean
   isLast?: boolean
   onCTAClick?: () => void
+  onEnded?: () => void
 }
 
 // Formata número grande → "1.2k", "34k"
@@ -22,6 +23,7 @@ const VideoCard = ({
   isActive,
   isLast = false,
   onCTAClick,
+  onEnded,
 }: VideoCardProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [likeCount, setLikeCount] = useState(initialLikeCount)
@@ -42,7 +44,7 @@ const VideoCard = ({
     }
   }, [isActive])
 
-  // Atualiza progresso e dispara price reveal no último card
+  // Atualiza progresso, dispara price reveal no último card e avança ao terminar
   useEffect(() => {
     const v = videoRef.current
     if (!v || !isActive) return
@@ -57,9 +59,17 @@ const VideoCard = ({
       }
     }
 
+    const handleEnded = () => {
+      if (!isLast) onEnded?.()
+    }
+
     v.addEventListener('timeupdate', onTimeUpdate)
-    return () => v.removeEventListener('timeupdate', onTimeUpdate)
-  }, [isActive, isLast, showPriceReveal])
+    v.addEventListener('ended', handleEnded)
+    return () => {
+      v.removeEventListener('timeupdate', onTimeUpdate)
+      v.removeEventListener('ended', handleEnded)
+    }
+  }, [isActive, isLast, showPriceReveal, onEnded])
 
   // Like counter aleatório enquanto vídeo toca
   useEffect(() => {
@@ -86,7 +96,6 @@ const VideoCard = ({
         ref={videoRef}
         src={src}
         className="absolute inset-0 h-full w-full object-cover"
-        loop
         playsInline
         preload="metadata"
       />
