@@ -8,25 +8,25 @@ import type { VideoConfig } from '../../types/funnel'
 // Substitua pelos vídeos reais de prova social do Conectagram
 const VIDEOS: VideoConfig[] = [
   {
-    src: '/videos/proof-1.mp4',
+    src: '/videos/codeVideo1.mp4',
     title: 'De 340 para 12k seguidores em 21 dias',
     description: 'Sem comprar seguidores. Sem bot. Só o método.',
     initialLikeCount: 8743,
   },
   {
-    src: '/videos/proof-2.mp4',
+    src: '/videos/codeVideo2.mp4',
     title: 'Como o algoritmo funciona de verdade',
     description: 'O que eles não te contam nas aulas de marketing.',
     initialLikeCount: 14201,
   },
   {
-    src: '/videos/proof-3.mp4',
+    src: '/videos/codeVideo3.mp4',
     title: 'Perfil nicho saúde: +4.800 em 2 semanas',
     description: 'Resultados reais. Print do painel mostrado ao vivo.',
     initialLikeCount: 6382,
   },
   {
-    src: '/videos/proof-4.mp4',
+    src: '/videos/codeVideo4.mp4',
     title: 'Acesso ao sistema completo',
     description: 'Veja o painel e todas as funcionalidades.',
     initialLikeCount: 21056,

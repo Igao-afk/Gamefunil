@@ -118,14 +118,13 @@ const Stage2DarkgirlCall = () => {
 
           {/* Diálogo typewriter — exibe só as 3 últimas linhas para não cobrir botões */}
           {scene === 'call' && (
-            <div className="absolute bottom-56 left-0 right-0 px-6">
-              <div className="space-y-[2px]">
+            <div className="absolute inset-x-0 bottom-56 flex flex-col items-center gap-2 px-6">
                 {displayedLines.slice(-3).map((line, i, arr) => (
                   <motion.p
                     key={displayedLines.length - arr.length + i}
                     initial={{ opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="font-mono text-[10px] leading-snug text-hacker-green/90"
+                    className="text-center font-mono text-[12px] leading-relaxed text-hacker-green/90"
                   >
                     {line}
                     {i === arr.length - 1 && (
@@ -133,7 +132,6 @@ const Stage2DarkgirlCall = () => {
                     )}
                   </motion.p>
                 ))}
-              </div>
             </div>
           )}
 
