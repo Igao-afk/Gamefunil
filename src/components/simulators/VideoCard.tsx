@@ -82,7 +82,6 @@ const VideoCard = ({
         src={src}
         className="absolute inset-0 h-full w-full object-cover"
         loop
-        muted
         playsInline
         preload="metadata"
       />

@@ -115,28 +115,28 @@ const Stage1CodeInterception = () => {
               callerNumber={CALLER_NUMBER}
               callStatus={callStatus}
               avatarSrc="/images/code-avatar.jpg"
+              caption={
+                callStatus === 'active' ? (
+                  <AnimatePresence mode="popLayout" initial={false}>
+                    {visibleLines.slice(-2).map(({ text, index }) => (
+                      <motion.p
+                        key={index}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-center font-mono text-[9px] leading-relaxed text-hacker-green/80"
+                      >
+                        {text}
+                        {index === displayedLines.length - 1 && (
+                          <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-hacker-green" />
+                        )}
+                      </motion.p>
+                    ))}
+                  </AnimatePresence>
+                ) : null
+              }
             />
-
-            {/* Diálogo typewriter — rolante (últimas 2 linhas), centralizado */}
-            {callStatus === 'active' && (
-              <div className="absolute inset-x-0 bottom-56 flex flex-col items-center gap-2 px-6">
-                {visibleLines.map(({ text, index }) => (
-                  <motion.p
-                    key={index}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="text-center font-mono text-[12px] leading-relaxed text-hacker-green/90"
-                  >
-                    {text}
-                    {/* Cursor piscante apenas na última linha sendo digitada */}
-                    {index === displayedLines.length - 1 && (
-                      <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-hacker-green" />
-                    )}
-                  </motion.p>
-                ))}
-              </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

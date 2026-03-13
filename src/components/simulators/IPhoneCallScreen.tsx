@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import StatusBarIOS from '../ui/StatusBarIOS'
 
@@ -11,6 +11,7 @@ interface IPhoneCallScreenProps {
   avatarSrc?: string
   onDecline?: () => void
   onMute?: () => void
+  caption?: ReactNode
 }
 
 // Formata segundos → MM:SS
@@ -50,6 +51,7 @@ const IPhoneCallScreen = ({
   avatarSrc,
   onDecline,
   onMute,
+  caption,
 }: IPhoneCallScreenProps) => {
   const [elapsed, setElapsed] = useState(0)
 
@@ -166,8 +168,10 @@ const IPhoneCallScreen = ({
           )}
         </AnimatePresence>
 
-        {/* Espaçador inferior — 1/3 do espaço disponível */}
-        <div className="flex-1" />
+        {/* Área de legenda — fica entre as ondas e os botões, sem sobrepor nada */}
+        <div className="flex flex-1 flex-col items-center justify-center overflow-hidden px-6">
+          {caption}
+        </div>
       </div>
 
       {/* Botões de ação */}
