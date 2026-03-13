@@ -33,7 +33,10 @@ const TikTokFeedSimulator = ({ videos, onCTAClick }: TikTokFeedSimulatorProps) =
       if (ref) observer.observe(ref)
     })
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      cardRefs.current = [] // limpa refs stale ao recriar o observer
+    }
   }, [videos])
 
   return (

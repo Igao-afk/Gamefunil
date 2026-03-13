@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { VideoConfig } from '../../types/funnel'
+import CommentsSheet from './CommentsSheet'
 
 interface VideoCardProps extends VideoConfig {
   isActive: boolean
@@ -17,6 +18,7 @@ const VideoCard = ({
   title,
   description,
   initialLikeCount,
+  comments = [],
   isActive,
   isLast = false,
   onCTAClick,
@@ -26,6 +28,7 @@ const VideoCard = ({
   const [liked, setLiked] = useState(false)
   const [progress, setProgress] = useState(0)
   const [showPriceReveal, setShowPriceReveal] = useState(false)
+  const [showComments, setShowComments] = useState(false)
 
   // Autoplay / pause conforme isActive
   useEffect(() => {
@@ -70,8 +73,10 @@ const VideoCard = ({
   }, [isActive])
 
   const handleLike = () => {
-    setLiked((l) => !l)
-    setLikeCount((c) => (liked ? c - 1 : c + 1))
+    setLiked((prev) => {
+      setLikeCount((c) => (prev ? c - 1 : c + 1))
+      return !prev
+    })
   }
 
   return (
@@ -116,11 +121,11 @@ const VideoCard = ({
         </button>
 
         {/* Comentário */}
-        <button className="flex flex-col items-center gap-1">
+        <button onClick={() => setShowComments(true)} className="flex flex-col items-center gap-1">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
-          <span className="font-mono text-[11px] text-white">348</span>
+          <span className="font-mono text-[11px] text-white">{comments.length > 0 ? formatCount(comments.length) : '0'}</span>
         </button>
 
         {/* Compartilhar */}
@@ -139,6 +144,14 @@ const VideoCard = ({
         <p className="text-sm font-semibold leading-snug text-white">{title}</p>
         <p className="mt-1 text-xs leading-snug text-white/70">{description}</p>
       </div>
+
+      {/* Painel de comentários */}
+      <CommentsSheet
+        isOpen={showComments}
+        comments={comments}
+        totalCount={comments.length}
+        onClose={() => setShowComments(false)}
+      />
 
       {/* Price Reveal — apenas no último card */}
       <AnimatePresence>

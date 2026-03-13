@@ -164,6 +164,11 @@ class AudioEngine {
     sound.seek(seconds)
   }
 
+  /** Remove todos os listeners 'end' de um som — chamar antes de onEnd para evitar acúmulo */
+  offEnd(id: AudioId): void {
+    this.sounds.get(id)?.off('end')
+  }
+
   /** Registra callback disparado UMA vez quando o som termina (usa Howler `once`) */
   onEnd(id: AudioId, callback: () => void): void {
     const sound = this.loadSound(id)

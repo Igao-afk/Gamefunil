@@ -17,12 +17,12 @@ const FAQAccordion = ({ items }: FAQAccordionProps) => {
     <div className="flex flex-col gap-2">
       {items.map((item, i) => (
         <div
-          key={i}
+          key={item.q}
           className="overflow-hidden rounded-xl border border-white/8"
           style={{ backgroundColor: '#0D0D0D' }}
         >
           <button
-            onClick={() => setOpenIndex(openIndex === i ? null : i)}
+            onClick={() => setOpenIndex((prev) => (prev === i ? null : i))}
             className="flex w-full items-center justify-between px-5 py-4 text-left"
             aria-expanded={openIndex === i}
           >

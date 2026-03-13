@@ -43,6 +43,7 @@ const WhatsAppSimulator = ({ messages, isTyping, avatarSrc, contactName = 'DarkG
   const bottomRef = useRef<HTMLDivElement>(null)
   const [activeAudioId, setActiveAudioId] = useState<AudioId | null>(null)
   const prevCountRef = useRef(0)
+  const handlePlayRef = useRef<(id: AudioId) => void>(() => {})
 
   // Auto-scroll para última mensagem
   useEffect(() => {
@@ -55,19 +56,26 @@ const WhatsAppSimulator = ({ messages, isTyping, avatarSrc, contactName = 'DarkG
     prevCountRef.current = messages.length
     const newAudio = newMessages.find((m) => m.type === 'audio')
     if (newAudio?.audioId) {
-      setTimeout(() => handlePlay(newAudio.audioId as AudioId), 300)
+      const id = newAudio.audioId
+      const timerId = setTimeout(() => handlePlayRef.current(id), 300)
+      return () => clearTimeout(timerId)
     }
   }, [messages.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePlay = (id: AudioId) => {
-    // Para o áudio anterior se houver
+    // Para o áudio anterior e limpa seu listener
     if (activeAudioId && activeAudioId !== id) {
       audioEngine.stop(activeAudioId)
+      audioEngine.offEnd(activeAudioId)
     }
+    // Limpa listener anterior do mesmo id antes de registrar novo
+    audioEngine.offEnd(id)
     setActiveAudioId(id)
     audioEngine.play(id)
     audioEngine.onEnd(id, () => setActiveAudioId((cur) => (cur === id ? null : cur)))
   }
+  // Mantém ref sempre atualizado para uso no autoplay sem stale closure
+  handlePlayRef.current = handlePlay
 
   const handleStop = (id: AudioId) => {
     audioEngine.stop(id)
@@ -152,12 +160,12 @@ const WhatsAppSimulator = ({ messages, isTyping, avatarSrc, contactName = 'DarkG
                   </div>
                 ) : (
                   <AudioMessageBubble
-                    audioId={msg.audioId as AudioId}
+                    audioId={msg.audioId}
                     duration={msg.duration}
                     timestamp={getTimestamp(i)}
                     isPlaying={activeAudioId === msg.audioId}
-                    onRequestPlay={() => handlePlay(msg.audioId as AudioId)}
-                    onRequestStop={() => handleStop(msg.audioId as AudioId)}
+                    onRequestPlay={() => handlePlay(msg.audioId)}
+                    onRequestStop={() => handleStop(msg.audioId)}
                   />
                 )}
               </motion.div>

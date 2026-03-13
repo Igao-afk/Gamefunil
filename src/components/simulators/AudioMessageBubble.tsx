@@ -60,13 +60,15 @@ const AudioMessageBubble = ({
 
   // Seek ao clicar na waveform
   const handleScrubberClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!scrubberRef.current || totalDuration === 0) return
+    if (!scrubberRef.current) return
+    // Usa duração real do Howler — se 0 o áudio ainda não carregou, ignora
+    const realDuration = audioEngine.duration(audioId)
+    if (realDuration === 0) return
     const rect = scrubberRef.current.getBoundingClientRect()
     const frac = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width))
-    const targetSec = frac * totalDuration
+    const targetSec = frac * realDuration
     audioEngine.seekTo(audioId, targetSec)
     setElapsed(targetSec)
-    // Se não estava tocando, inicia
     if (!isPlaying) onRequestPlay()
   }
 

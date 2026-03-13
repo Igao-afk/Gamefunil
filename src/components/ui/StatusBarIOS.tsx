@@ -13,8 +13,20 @@ const StatusBarIOS = () => {
   const [time, setTime] = useState(getBrasiliaTime)
 
   useEffect(() => {
-    const id = setInterval(() => setTime(getBrasiliaTime()), 1000)
-    return () => clearInterval(id)
+    // Aguarda a virada do próximo minuto, depois atualiza a cada 60s
+    // Evita 59 re-renders desnecessários por minuto (display só mostra HH:MM)
+    const msUntilNextMinute = (60 - new Date().getSeconds()) * 1000
+    let intervalId: ReturnType<typeof setInterval> | undefined
+
+    const timeoutId = setTimeout(() => {
+      setTime(getBrasiliaTime())
+      intervalId = setInterval(() => setTime(getBrasiliaTime()), 60_000)
+    }, msUntilNextMinute)
+
+    return () => {
+      clearTimeout(timeoutId)
+      if (intervalId !== undefined) clearInterval(intervalId)
+    }
   }, [])
 
   return (

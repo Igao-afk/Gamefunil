@@ -23,6 +23,12 @@ const Stage2DarkgirlCall = () => {
 
   // Anima glitch progressivamente a partir do índice GLITCH_START_INDEX
   const animateGlitch = (targetIntensity: number) => {
+    // Cancela qualquer animação em andamento antes de iniciar nova
+    if (glitchRafRef.current !== null) {
+      cancelAnimationFrame(glitchRafRef.current)
+      glitchRafRef.current = null
+    }
+
     const start = glitchRef.current
     const startTime = performance.now()
     const duration = 1800
@@ -35,13 +41,17 @@ const Stage2DarkgirlCall = () => {
       setGlitchIntensity(value)
       if (t < 1) {
         glitchRafRef.current = requestAnimationFrame(tick)
+      } else {
+        glitchRafRef.current = null
       }
     }
     glitchRafRef.current = requestAnimationFrame(tick)
   }
 
-  useEffect(() => () => {
-    if (glitchRafRef.current) cancelAnimationFrame(glitchRafRef.current)
+  useEffect(() => {
+    return () => {
+      if (glitchRafRef.current !== null) cancelAnimationFrame(glitchRafRef.current)
+    }
   }, [])
 
   const { displayedLines, start: startDialogue } = useTypewriter({
@@ -97,7 +107,7 @@ const Stage2DarkgirlCall = () => {
     }, 3000)
 
     return () => clearTimeout(t)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [startDialogue])
 
   return (
     <AnimatePresence mode="wait">

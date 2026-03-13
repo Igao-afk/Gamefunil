@@ -70,8 +70,10 @@ const Stage1CodeInterception = () => {
           audioEngine.play('gun')
         }, 53000)
 
-        // Registra callbacks ANTES de dar play (evita race condition)
+        // Limpa listeners anteriores antes de registrar — evita acúmulo em re-execuções
+        audioEngine.offEnd('code-voice-1')
         audioEngine.onEnd('code-voice-1', () => {
+          audioEngine.offEnd('code-voice-2')
           audioEngine.onEnd('code-voice-2', () => {
             // Encerra a chamada somente quando o segundo áudio terminar
             setCallStatus('ended')
@@ -90,6 +92,8 @@ const Stage1CodeInterception = () => {
     return () => {
       clearTimeout(t)
       clearTimeout(gunTimer)
+      audioEngine.offEnd('code-voice-1')
+      audioEngine.offEnd('code-voice-2')
     }
   }, [startDialogue])
 
