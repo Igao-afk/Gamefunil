@@ -142,6 +142,33 @@ class AudioEngine {
     this.fadeOut(id, fadeDuration)
   }
 
+  /** Retorna posição atual de reprodução em segundos (0 se não estiver tocando) */
+  seek(id: AudioId): number {
+    const sound = this.sounds.get(id)
+    if (!sound) return 0
+    const pos = sound.seek()
+    return typeof pos === 'number' ? pos : 0
+  }
+
+  /** Retorna duração total em segundos (0 se não carregado) */
+  duration(id: AudioId): number {
+    const sound = this.sounds.get(id)
+    if (!sound) return 0
+    return sound.duration() ?? 0
+  }
+
+  /** Salta para posição em segundos */
+  seekTo(id: AudioId, seconds: number): void {
+    const sound = this.sounds.get(id)
+    if (!sound) return
+    sound.seek(seconds)
+  }
+
+  /** Remove todos os listeners 'end' de um som — chamar antes de onEnd para evitar acúmulo */
+  offEnd(id: AudioId): void {
+    this.sounds.get(id)?.off('end')
+  }
+
   /** Registra callback disparado UMA vez quando o som termina (usa Howler `once`) */
   onEnd(id: AudioId, callback: () => void): void {
     const sound = this.loadSound(id)

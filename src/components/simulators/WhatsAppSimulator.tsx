@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { QueuedMessage } from '../../types/funnel'
 import AudioMessageBubble from './AudioMessageBubble'
+import { audioEngine } from '../../utils/audioEngine'
 import type { AudioId } from '../../types/audio'
 
 interface WhatsAppSimulatorProps {
@@ -40,11 +41,46 @@ const TypingIndicator = () => (
 
 const WhatsAppSimulator = ({ messages, isTyping, avatarSrc, contactName = 'DarkGirl' }: WhatsAppSimulatorProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
+  const [activeAudioId, setActiveAudioId] = useState<AudioId | null>(null)
+  const prevCountRef = useRef(0)
+  const handlePlayRef = useRef<(id: AudioId) => void>(() => {})
 
   // Auto-scroll para última mensagem
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
+
+  // Autoplay: quando uma nova mensagem de áudio aparece, toca automaticamente
+  useEffect(() => {
+    const newMessages = messages.slice(prevCountRef.current)
+    prevCountRef.current = messages.length
+    const newAudio = newMessages.find((m) => m.type === 'audio')
+    if (newAudio?.audioId) {
+      const id = newAudio.audioId
+      const timerId = setTimeout(() => handlePlayRef.current(id), 300)
+      return () => clearTimeout(timerId)
+    }
+  }, [messages.length]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handlePlay = (id: AudioId) => {
+    // Para o áudio anterior e limpa seu listener
+    if (activeAudioId && activeAudioId !== id) {
+      audioEngine.stop(activeAudioId)
+      audioEngine.offEnd(activeAudioId)
+    }
+    // Limpa listener anterior do mesmo id antes de registrar novo
+    audioEngine.offEnd(id)
+    setActiveAudioId(id)
+    audioEngine.play(id)
+    audioEngine.onEnd(id, () => setActiveAudioId((cur) => (cur === id ? null : cur)))
+  }
+  // Mantém ref sempre atualizado para uso no autoplay sem stale closure
+  handlePlayRef.current = handlePlay
+
+  const handleStop = (id: AudioId) => {
+    audioEngine.stop(id)
+    setActiveAudioId(null)
+  }
 
   return (
     <div className="flex h-full w-full flex-col bg-black">
@@ -124,10 +160,12 @@ const WhatsAppSimulator = ({ messages, isTyping, avatarSrc, contactName = 'DarkG
                   </div>
                 ) : (
                   <AudioMessageBubble
-                    audioId={msg.audioId as AudioId}
+                    audioId={msg.audioId}
                     duration={msg.duration}
                     timestamp={getTimestamp(i)}
-                    autoPlay
+                    isPlaying={activeAudioId === msg.audioId}
+                    onRequestPlay={() => handlePlay(msg.audioId)}
+                    onRequestStop={() => handleStop(msg.audioId)}
                   />
                 )}
               </motion.div>

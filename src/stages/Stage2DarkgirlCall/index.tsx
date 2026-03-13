@@ -23,6 +23,12 @@ const Stage2DarkgirlCall = () => {
 
   // Anima glitch progressivamente a partir do índice GLITCH_START_INDEX
   const animateGlitch = (targetIntensity: number) => {
+    // Cancela qualquer animação em andamento antes de iniciar nova
+    if (glitchRafRef.current !== null) {
+      cancelAnimationFrame(glitchRafRef.current)
+      glitchRafRef.current = null
+    }
+
     const start = glitchRef.current
     const startTime = performance.now()
     const duration = 1800
@@ -35,13 +41,17 @@ const Stage2DarkgirlCall = () => {
       setGlitchIntensity(value)
       if (t < 1) {
         glitchRafRef.current = requestAnimationFrame(tick)
+      } else {
+        glitchRafRef.current = null
       }
     }
     glitchRafRef.current = requestAnimationFrame(tick)
   }
 
-  useEffect(() => () => {
-    if (glitchRafRef.current) cancelAnimationFrame(glitchRafRef.current)
+  useEffect(() => {
+    return () => {
+      if (glitchRafRef.current !== null) cancelAnimationFrame(glitchRafRef.current)
+    }
   }, [])
 
   const { displayedLines, start: startDialogue } = useTypewriter({
@@ -97,7 +107,7 @@ const Stage2DarkgirlCall = () => {
     }, 3000)
 
     return () => clearTimeout(t)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [startDialogue])
 
   return (
     <AnimatePresence mode="wait">
@@ -114,39 +124,39 @@ const Stage2DarkgirlCall = () => {
             callerNumber="+55 (11) 9 8765-4321"
             callStatus={callStatus}
             avatarSrc="/images/darkGirl.jpg"
+            caption={
+              scene === 'dialing' ? (
+                <motion.p
+                  animate={{ opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.2, repeat: Infinity }}
+                  className="font-mono text-xs tracking-widest text-white/50"
+                >
+                  DISCANDO...
+                </motion.p>
+              ) : scene === 'call' ? (
+                <AnimatePresence mode="popLayout" initial={false}>
+                  {displayedLines.slice(-2).map((line, i, arr) => {
+                    const lineIndex = displayedLines.length - arr.length + i
+                    return (
+                      <motion.p
+                        key={lineIndex}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                        className="text-center font-mono text-[10px] leading-relaxed text-hacker-green/80"
+                      >
+                        {line}
+                        {lineIndex === displayedLines.length - 1 && (
+                          <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-white/60" />
+                        )}
+                      </motion.p>
+                    )
+                  })}
+                </AnimatePresence>
+              ) : null
+            }
           />
-
-          {/* Diálogo typewriter — exibe só as 3 últimas linhas para não cobrir botões */}
-          {scene === 'call' && (
-            <div className="absolute inset-x-0 bottom-56 flex flex-col items-center gap-2 px-6">
-                {displayedLines.slice(-3).map((line, i, arr) => (
-                  <motion.p
-                    key={displayedLines.length - arr.length + i}
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center font-mono text-[12px] leading-relaxed text-hacker-green/90"
-                  >
-                    {line}
-                    {i === arr.length - 1 && (
-                      <span className="animate-cursor-blink ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[1px] bg-white/60" />
-                    )}
-                  </motion.p>
-                ))}
-            </div>
-          )}
-
-          {/* Indicador de discando */}
-          {scene === 'dialing' && (
-            <div className="absolute bottom-56 left-0 right-0 flex justify-center">
-              <motion.p
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.2, repeat: Infinity }}
-                className="font-mono text-xs tracking-widest text-white/50"
-              >
-                DISCANDO...
-              </motion.p>
-            </div>
-          )}
 
           {/* Glitch overlay */}
           <GlitchOverlay intensity={glitchIntensity} />

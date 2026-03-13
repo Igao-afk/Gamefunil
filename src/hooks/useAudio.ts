@@ -11,5 +11,10 @@ export const useAudio = () => ({
     audioEngine.fadeIn(id, duration, target),
   fadeOut: (id: AudioId, duration: number) => audioEngine.fadeOut(id, duration),
   preloadStage: (stage: 1 | 2 | 3 | 4) => audioEngine.preloadStage(stage),
+  onEnd: (id: AudioId, cb: () => void) => audioEngine.onEnd(id, cb),
+  offEnd: (id: AudioId) => audioEngine.offEnd(id),
+  seek: (id: AudioId) => audioEngine.seek(id),
+  duration: (id: AudioId) => audioEngine.duration(id),
+  seekTo: (id: AudioId, seconds: number) => audioEngine.seekTo(id, seconds),
   isInitialized: audioEngine.isInitialized,
 })

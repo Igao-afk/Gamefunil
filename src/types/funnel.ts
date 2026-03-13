@@ -1,3 +1,5 @@
+import type { AudioId } from './audio'
+
 export type StageNumber = 0 | 1 | 2 | 3 | 4 | 5
 // 0 = TapToStart, 1–5 = stages do funil
 
@@ -16,16 +18,24 @@ export interface TextMessage {
 
 export interface AudioMessage {
   type: 'audio'
-  audioId: string
+  audioId: AudioId
   duration: string // ex: "0:42"
   delay: number
 }
 
 export type QueuedMessage = TextMessage | AudioMessage
 
+export interface VideoComment {
+  username: string
+  text: string
+  likes: number
+  avatarColor: string // cor hex do círculo de avatar
+}
+
 export interface VideoConfig {
   src: string
   title: string
   description: string
   initialLikeCount: number
+  comments?: VideoComment[]
 }
